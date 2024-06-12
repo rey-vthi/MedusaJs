@@ -13,6 +13,11 @@ class OfferService extends TransactionBaseService {
     return await offerRepo.find();
   }
 
+  async getOfferFor(id: string): Promise<Offer> {
+    const offerRepo = this.activeManager_.getRepository(Offer)
+    return await offerRepo.findOneBy({id: id});
+  }
+
   async createOffer(offerDetails): Promise<String> {
     const offerRepo = this.activeManager_.getRepository(Offer)
     const offer = new Offer();

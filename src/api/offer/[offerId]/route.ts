@@ -2,20 +2,20 @@ import type {
     MedusaRequest, 
     MedusaResponse,
   } from "@medusajs/medusa"
-import { Offer } from "src/models/offer";
+import { off } from "process";
+  import OfferService from "src/services/offer"
   
-  export function GET(
+  export async function GET(
     req: MedusaRequest,
     res: MedusaResponse
   ) {
     const id = req.params.offerId
     console.log("Request for offer id detailsL: " + id);
     
-    const offerRepo = this.activeManager_.getRepository(Offer)
+    const offerService = req.scope.resolve<OfferService>("offerService");
+    const offer = await offerService.getOfferFor(id);
   
-    res.json({
-        offerDetails: offerRepo.findOneBy({id: id})
-      })
+    res.json(offer);
   }
 
   export function POST(
